@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -37,14 +34,20 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 5: Build APK (Split per ABI)
+      # Step 5: Build APK
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
-      # Step 6: Upload APK to GitHub Releases
+      # Step 6: Debug APK Path
+      - name: Debug APK Path
+        run: |
+          ls build/app/outputs/flutter-apk/
+
+      # Step 7: Upload APK to GitHub Releases
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/release/*.apk"
+          artifacts: "build/app/outputs/flutter-apk/app-*-release.apk"
           tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}    
+          release_name: "Release v1.0.${{ github.run_number }}"
+          token: ${{ secrets.TOKEN }}
