@@ -1,4 +1,4 @@
-name: Flutter CI/CD on Windows
+name: Flutter CI/CD Pipeline
 
 on:
   push:
@@ -10,28 +10,28 @@ on:
 
 jobs:
   build:
-    name: Build and Test on Windows
-    runs-on: windows-latest
+    name: Build and Test
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Install Flutter on Windows
-      - name: Setup Flutter on Windows
+      # 2. Install Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.24.5'
 
-      # 3. Install dependencies
+      # 3. Debug Flutter Installation
+      - name: Debug Flutter
+        run: flutter --version
+
+      # 4. Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 4. Run tests
+      # 5. Run tests
       - name: Run tests
         run: flutter test
-
-      # 5. Build APK
-      - name: Build APK
-        run: flutter build apk --release
