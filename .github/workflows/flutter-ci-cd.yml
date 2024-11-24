@@ -38,11 +38,15 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      # 6. Upload APK to GitHub Release
+      # 6. Check APK Path
+      - name: Check APK Path
+        run: ls -l build/app/outputs/flutter-apk/
+
+      # 7. Upload APK to GitHub Release
       - name: Upload Release APK
         uses: actions/upload-release-asset@v1
         env:
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: build/app/outputs/flutter-apk/app-release.apk
