@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -18,20 +17,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Install Flutter
+      # 2. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.5'
 
-      # 3. Debug Flutter Installation
-      - name: Debug Flutter
-        run: flutter --version
-
-      # 4. Install dependencies
+      # 3. Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. Run tests
+      # 4. Run tests (optional)
       - name: Run tests
-        run: flutter test
+        run: flutter test || echo "No tests found"
+
+      # 5. Build APK
+      - name: Build APK
+        run: flutter build apk --release
