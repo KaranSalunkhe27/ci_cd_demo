@@ -38,11 +38,15 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      # 6. Check APK Path
-      - name: Check APK Path
+      # 6. Verify APK Path
+      - name: Verify APK Path
         run: ls -l build/app/outputs/flutter-apk/
 
-      # 7. Upload APK to GitHub Release
+      # 7. Debug upload_url
+      - name: Debug upload_url
+        run: echo "${{ github.event.release.upload_url }}"
+
+      # 8. Upload APK to GitHub Release
       - name: Upload Release APK
         uses: actions/upload-release-asset@v1
         env:
@@ -52,3 +56,10 @@ jobs:
           asset_path: build/app/outputs/flutter-apk/app-release.apk
           asset_name: app-release.apk
           asset_content_type: application/vnd.android.package-archive
+
+      # 9. Fallback: Upload APK as Artifact
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
