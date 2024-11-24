@@ -1,4 +1,4 @@
-name: Flutter CI/CD Pipeline
+name: Flutter CI/CD on Windows
 
 on:
   push:
@@ -10,19 +10,19 @@ on:
 
 jobs:
   build:
-    name: Build and Test
-    runs-on: ubuntu-latest
+    name: Build and Test on Windows
+    runs-on: windows-latest
 
     steps:
       # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Install Flutter
-      - name: Setup Flutter
+      # 2. Install Flutter on Windows
+      - name: Setup Flutter on Windows
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "stable"
+          flutter-version: 'stable'
 
       # 3. Install dependencies
       - name: Install dependencies
@@ -35,16 +35,3 @@ jobs:
       # 5. Build APK
       - name: Build APK
         run: flutter build apk --release
-
-      # 6. Build iOS (Optional, macOS environment required)
-      # Uncomment this section if building for iOS.
-      # - name: Build iOS
-      #   run: flutter build ios --release
-      #   if: runner.os == 'macOS'
-
-      # 7. Upload APK as an artifact
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
